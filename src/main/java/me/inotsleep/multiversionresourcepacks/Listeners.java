@@ -1,6 +1,7 @@
 package me.inotsleep.multiversionresourcepacks;
 
 import com.viaversion.viaversion.api.ViaAPI;
+import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -49,7 +50,7 @@ public class Listeners implements Listener {
             String operator = prt.replace(String.valueOf(protocolNumber), "");
             if (equals.get()) return;
 
-            Pack pack = MultiVersionResourcePacks.config.resourcePackMap.get(prt);
+            Pack pack = MultiVersionResourcePacks.config.resourcePackMap.getOrDefault(operator+protocolNumber, MultiVersionResourcePacks.config.resourcePackMap.get(operator+ProtocolVersion.getProtocol(protocolNumber).getName()));
 
             switch (operator) {
                 case "==":
