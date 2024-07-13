@@ -1,8 +1,10 @@
 package me.inotsleep.multiversionresourcepacks;
 
 import com.viaversion.viaversion.api.Via;
+import com.viaversion.viaversion.api.ViaAPI;
 import me.inotsleep.utils.AbstractPlugin;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,6 +20,7 @@ import static me.inotsleep.multiversionresourcepacks.Utils.calcSHA1;
 public final class MultiVersionResourcePacks extends AbstractPlugin {
     public static List<String> sortedKeyList;
     public static Config config;
+    public static ViaAPI<Player> viaAPI;
     @Override
     public void doDisable() {
 
@@ -29,14 +32,15 @@ public final class MultiVersionResourcePacks extends AbstractPlugin {
         reloadConfig();
         HttpPackHost.startServer(this);
 
+        viaAPI = Via.getAPI();
 
-        Bukkit.getPluginManager().registerEvents(new Listeners(Via.getAPI()), this);
+        Bukkit.getPluginManager().registerEvents(new Listeners(viaAPI), this);
     }
     @Override
     public void reloadConfig() {
         config.reload();
 
-        Pattern pattern = Pattern.compile("([0-9]+)");
+        Pattern pattern = Pattern.compile("[0-9.]+");
 
         sortedKeyList = config
                 .resourcePackMap
@@ -47,9 +51,14 @@ public final class MultiVersionResourcePacks extends AbstractPlugin {
                                 {
                                     Matcher m = pattern.matcher(s);
                                     m.find();
-                                    return Integer.parseInt(
-                                            m.group()
-                                    );
+                                    String version = m.group();
+                                    int protocol;
+                                    try {
+                                        protocol = Integer.parseInt(version);
+                                    } catch (NumberFormatException e) {
+                                        protocol = Utils.getProtocolFromVersionString(version);
+                                    }
+                                    return protocol;
                                 }
                         )
                 )

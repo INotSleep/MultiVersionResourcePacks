@@ -1,9 +1,12 @@
 package me.inotsleep.multiversionresourcepacks;
 
+import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
+
 import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
+import java.util.Objects;
 
 public class Utils {
     public static String calcSHA1(File file) throws IOException, NoSuchAlgorithmException {
@@ -29,5 +32,11 @@ public class Utils {
             formatter.format("%02x", b);
         }
         return formatter.toString();
+    }
+
+    public static int getProtocolFromVersionString(String versionString) {
+        final ProtocolVersion[] version = {null};
+        ProtocolVersion.getProtocols().forEach(i -> version[0] = Objects.equals(i.getName(), versionString) ? i : version[0]);
+        return version[0] == null ? -1 : version[0].getVersion();
     }
 }

@@ -25,7 +25,6 @@ public class Listeners implements Listener {
     @EventHandler
     public void onPlayerSpawn(PlayerJoinEvent event) {
         int protocol = viaAPI.getPlayerVersion(event.getPlayer());
-        event.getPlayer().sendMessage("Protocol: " + protocol);
         Pack pack = getPackByProtocol(protocol);
         if (pack != null) {
             new BukkitRunnable() {
@@ -43,12 +42,14 @@ public class Listeners implements Listener {
         final Pack[] rpack = {null};
         AtomicBoolean equals = new AtomicBoolean(false);
 
-        MultiVersionResourcePacks.config.resourcePackMap.forEach((prt, pack) -> {
+        MultiVersionResourcePacks.sortedKeyList.forEach((prt) -> {
             Matcher m = pattern.matcher(prt);
             m.find();
             int protocolNumber = Integer.parseInt(m.group());
             String operator = prt.replace(String.valueOf(protocolNumber), "");
             if (equals.get()) return;
+
+            Pack pack = MultiVersionResourcePacks.config.resourcePackMap.get(prt);
 
             switch (operator) {
                 case "==":
