@@ -63,8 +63,8 @@ public class Config extends AbstractConfig {
 
         resourcePackMap = new HashMap<>();
 
-        resourcePackMap.put(">=1.16.4-1.16.5", new Pack(null, "8c96d8084fa706661d0a7cf9b084bef4161d520b", "https://mediafilez.forgecdn.net/files/5505/931/Faithful%2032x%20-%201.16.5.zip", true));
+        resourcePackMap.put(">=1_16_4-1_16_5", new Pack(null, "8c96d8084fa706661d0a7cf9b084bef4161d520b", "https://mediafilez.forgecdn.net/files/5505/931/Faithful%2032x%20-%201.16.5.zip", true));
         resourcePackMap.put("<753", new Pack("myPack.zip", null, null, false));
-        resourcePackMap.put("<=1.12.2", new Pack(null, "8c96d8084fa706661d0a7cf9b084bef4161d520b", "https://mediafilez.forgecdn.net/files/5505/931/Faithful%2032x%20-%201.16.5.zip", true));
+        resourcePackMap.put("<=1_12_2", new Pack(null, "8c96d8084fa706661d0a7cf9b084bef4161d520b", "https://mediafilez.forgecdn.net/files/5505/931/Faithful%2032x%20-%201.16.5.zip", true));
     }
 }

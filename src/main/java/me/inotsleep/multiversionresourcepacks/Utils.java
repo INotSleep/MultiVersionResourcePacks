@@ -35,8 +35,10 @@ public class Utils {
     }
 
     public static int getProtocolFromVersionString(String versionString) {
+        versionString = versionString.replace("_", ".");
         final ProtocolVersion[] version = {null};
-        ProtocolVersion.getProtocols().forEach(i -> version[0] = Objects.equals(i.getName(), versionString) ? i : version[0]);
+        String finalVersionString = versionString;
+        ProtocolVersion.getProtocols().forEach(i -> version[0] = Objects.equals(i.getName(), finalVersionString) ? i : version[0]);
         return version[0] == null ? -1 : version[0].getVersion();
     }
 }
