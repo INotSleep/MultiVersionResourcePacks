@@ -12,6 +12,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.ToIntFunction;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,7 +41,7 @@ public final class MultiVersionResourcePacks extends AbstractPlugin {
     public void reloadConfig() {
         config.reload();
 
-        Pattern pattern = Pattern.compile("[0-9.]+");
+        Pattern pattern = Pattern.compile("[0-9_]+");
 
         sortedKeyList = config
                 .resourcePackMap
@@ -48,20 +49,31 @@ public final class MultiVersionResourcePacks extends AbstractPlugin {
                 .stream()
                 .sorted(
                         Comparator.comparingInt(s ->
-                                {
-                                    Matcher m = pattern.matcher(s);
-                                    m.find();
-                                    String version = m.group();
-                                    int protocol;
-                                    try {
-                                        protocol = Integer.parseInt(version);
-                                    } catch (NumberFormatException e) {
-                                        protocol = Utils.getProtocolFromVersionString(version);
-                                    }
-                                    return protocol;
-                                }
-                        )
-                )
+                        {
+                            Matcher m = pattern.matcher(s);
+                            m.find();
+                            String version = m.group();
+                            int protocol;
+                            try {
+                                protocol = Integer.parseInt(version);
+                            } catch (NumberFormatException e) {
+                                protocol = Utils.getProtocolFromVersionString(version);
+                            }
+                            return protocol;
+                        })
+                ).map(s ->
+                {
+                    Matcher m = pattern.matcher(s);
+                    m.find();
+                    String version = m.group();
+                    int protocol;
+                    try {
+                        protocol = Integer.parseInt(version);
+                    } catch (NumberFormatException e) {
+                        protocol = Utils.getProtocolFromVersionString(version);
+                    }
+                    return s.replace(version, String.valueOf(protocol));
+                })
                 .toList();
 
         List<String> toRemove = new ArrayList<>();

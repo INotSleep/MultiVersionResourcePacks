@@ -48,27 +48,26 @@ public class Listeners implements Listener {
             m.find();
             int protocolNumber = Integer.parseInt(m.group());
             String operator = prt.replace(String.valueOf(protocolNumber), "");
+
             if (equals.get()) return;
 
-            Pack pack = MultiVersionResourcePacks.config.resourcePackMap.getOrDefault(operator+protocolNumber, MultiVersionResourcePacks.config.resourcePackMap.get(operator+ProtocolVersion.getProtocol(protocolNumber).getName()));
-
+            Pack pack = MultiVersionResourcePacks.config.resourcePackMap.getOrDefault(operator+protocolNumber, MultiVersionResourcePacks.config.resourcePackMap.get(operator+ProtocolVersion.getProtocol(protocolNumber).getName().replace(".", "_")));
             switch (operator) {
                 case "==":
-                    rpack[0] = protocolNumber == protocol ? pack : rpack[0];
+                    rpack[0] = protocol == protocolNumber ? pack : rpack[0];
                     equals.set(true);
                     break;
                 case ">=":
-                    rpack[0] = protocolNumber <= protocol ? pack : rpack[0];
-                    System.out.println(protocolNumber + " " + protocol);
+                    rpack[0] = protocol >= protocolNumber ? pack : rpack[0];
                     break;
                 case "<=":
-                    rpack[0] = protocolNumber >= protocol ? pack : rpack[0];
+                    rpack[0] = protocol <= protocolNumber ? pack : rpack[0];
                     break;
                 case ">":
-                    rpack[0] = protocolNumber < protocol ? pack : rpack[0];
+                    rpack[0] = protocol > protocolNumber ? pack : rpack[0];
                     break;
                 case "<":
-                    rpack[0] = protocolNumber > protocol ? pack : rpack[0];
+                    rpack[0] = protocol < protocolNumber ? pack : rpack[0];
                     break;
             }
         });
