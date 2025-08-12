@@ -1,5 +1,6 @@
 name: MultiVersionResourcePacks
 version: '${version}'
 main: me.inotsleep.multiversionresourcepacks.MultiVersionResourcePacks
+api-version: 1.16
 depend:
   - ViaVersion

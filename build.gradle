@@ -4,11 +4,10 @@ plugins {
 }
 
 group = 'me.inotsleep'
-version = '1.2'
+version = '1.3.0'
 
 repositories {
     mavenCentral()
-    mavenLocal()
     maven {
         name = "papermc-repo"
         url = "https://repo.papermc.io/repository/maven-public/"
@@ -19,14 +18,30 @@ repositories {
     }
 
     maven {
+        name = "inotsleep-nexus-public"
+        url = "https://nexus.inotsleep.com/repository/maven-a4public/"
+    }
+
+    maven {
         url = "https://repo.viaversion.com"
     }
 }
 
+configurations {
+    shadow
+}
+
 dependencies {
-    compileOnly "com.viaversion:viaversion-api:5.0.1"
-    compileOnly "com.destroystokyo.paper:paper-api:1.12.2-R0.1-SNAPSHOT"
-    implementation "me.inotsleep:utils:1.0.1"
+    compileOnly "com.viaversion:viaversion-api:5.4.2"
+    compileOnly "com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT"
+    shadow "me.inotsleep:utils:1.4.10"
+}
+
+shadowJar {
+    configurations = [project.configurations.shadow]
+    dependsOn(tasks.named('jar'))
+
+    archiveClassifier = ""
 }
 
 def targetJavaVersion = 17
