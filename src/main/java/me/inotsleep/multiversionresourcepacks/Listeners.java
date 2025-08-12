@@ -62,15 +62,10 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onPlayerResourcePack(PlayerResourcePackStatusEvent event) {
-        System.out.println(event.getStatus());
-
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
         Pack pack = playerToPack.get(uuid);
         String key = playerToKey.get(uuid);
-
-        System.out.println(key);
-        System.out.println(pack);
 
         PlayerResourcePackStatusEvent.Status status = event.getStatus();
         switch (status) {
