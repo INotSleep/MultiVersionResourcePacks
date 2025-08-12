@@ -19,7 +19,7 @@ repositories {
 
     maven {
         name = "inotsleep-nexus-public"
-        url = "https://nexus.inotsleep.com/repository/maven-a4public/"
+        url = "https://nexus.inotsleep.com/repository/maven-public/"
     }
 
     maven {
